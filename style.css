@@ -190,7 +190,7 @@ html, body {
   flex-direction: column;
   justify-content: flex-start;
   background: var(--bg);
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .shoot-header {
@@ -258,7 +258,7 @@ html, body {
   justify-content: center;
   gap: 24px;
   padding: 20px;
-  overflow: hidden;
+  overflow: visible;
   flex-wrap: wrap;
 }
 
@@ -272,12 +272,18 @@ html, body {
   max-width: min(55vw, 560px);
   width: 100%;
 }
+
+@media (max-width: 700px) {
+  .preview-wrap {
+    max-width: 100%;
+  }
+}
 #preview {
   width: 100%;
   display: block;
   border-radius: var(--radius);
   background: #000;
-  max-height: calc(100vh - 140px);
+  max-height: calc(100vh - 180px);
   object-fit: cover;
 }
 #preview.mirror { transform: scaleX(-1); }
@@ -530,9 +536,41 @@ html, body {
 
 /* ─── Responsive ─── */
 @media (max-width: 700px) {
-  .shoot-main { flex-direction: column; gap: 14px; padding: 14px; }
-  .preview-wrap { max-width: 100%; }
-  .slot { width: min(40vw, 130px); height: min(40vw, 130px); }
+  .shoot-main {
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    align-items: stretch;
+  }
+
+  /* 프리뷰 높이를 45vh로 제한해서 버튼이 화면 안에 보이도록 */
+  #preview {
+    max-height: 40vh;
+    object-fit: cover;
+    width: 100%;
+  }
+
+  /* 슬롯을 가로 한 줄로 배치 */
+  .slots-wrap {
+    width: 100%;
+    flex-direction: column;
+    gap: 10px;
+    align-items: stretch;
+  }
+  .slots-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .slot {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    min-width: 0;
+  }
+
+  /* 촬영 버튼 */
+  .btn-shoot { width: 100%; }
+
   .result-inner { flex-direction: column; align-items: center; }
 }
 
