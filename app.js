@@ -517,3 +517,29 @@ if ('serviceWorker' in navigator) {
 // ──────────────────────────────────────────────
 showScreen('landing');
 updateProgress();
+
+// ──────────────────────────────────────────────
+// Splash Modal
+// ──────────────────────────────────────────────
+(function initSplash() {
+  const overlay   = document.getElementById('splash-modal');
+  const closeBtn  = document.getElementById('splash-close');
+  if (!overlay || !closeBtn) return;
+
+  function closeSplash() {
+    overlay.classList.add('hidden');
+    overlay.addEventListener('animationend', () => overlay.remove(), { once: true });
+  }
+
+  closeBtn.addEventListener('click', closeSplash);
+
+  // 오버레이 배경 클릭 시에도 닫힘
+  overlay.addEventListener('click', e => {
+    if (e.target === overlay) closeSplash();
+  });
+
+  // ESC 키로도 닫힘
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && document.getElementById('splash-modal')) closeSplash();
+  }, { once: true });
+})();

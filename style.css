@@ -578,3 +578,172 @@ html, body {
   .shoot-header { gap: 8px; }
   .header-controls { gap: 6px; }
 }
+
+/* ─── SPLASH MODAL ─── */
+.splash-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, .75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: splashFadeIn .45s ease both;
+}
+.splash-overlay.hidden {
+  animation: splashFadeOut .35s ease both;
+  pointer-events: none;
+}
+@keyframes splashFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes splashFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.splash-card {
+  background: linear-gradient(160deg, #1a0033 0%, #0d001a 100%);
+  border: 1px solid rgba(201, 97, 255, .35);
+  border-radius: 28px;
+  box-shadow: 0 24px 80px rgba(180, 60, 255, .4), 0 0 0 1px rgba(255,255,255,.05) inset;
+  padding: 32px 28px 28px;
+  max-width: 400px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: splashCardIn .55s cubic-bezier(.18,.89,.32,1.2) .1s both;
+}
+@keyframes splashCardIn {
+  from { transform: scale(.82) translateY(30px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* 상단: 앱 이름 */
+.splash-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.splash-icon {
+  font-size: 52px;
+  animation: bounce .9s ease-in-out infinite alternate;
+  display: block;
+  margin-bottom: 4px;
+}
+.splash-title {
+  font-size: 2.4rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--accent), var(--accent2), var(--accent3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -.02em;
+  line-height: 1.1;
+}
+.splash-subtitle {
+  font-size: .95rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* 중간: 이미지 */
+.splash-img-wrap {
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(180,60,255,.3), 0 0 0 1px rgba(200,100,255,.2);
+  aspect-ratio: 1 / 1;
+  background: rgba(255,255,255,.04);
+}
+.splash-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .4s ease;
+}
+.splash-img-wrap:hover .splash-img {
+  transform: scale(1.03);
+}
+
+/* 하단: 기술스택 & 개발자 */
+.splash-footer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.splash-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  justify-content: center;
+}
+.stack-badge {
+  font-size: .72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 100px;
+  background: rgba(201, 97, 255, .12);
+  border: 1px solid rgba(201, 97, 255, .35);
+  color: var(--accent);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  transition: background .2s;
+}
+.stack-badge:hover {
+  background: rgba(201, 97, 255, .25);
+}
+.splash-dev {
+  font-size: .88rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.splash-dev strong {
+  color: var(--accent2);
+  font-weight: 700;
+}
+.splash-year {
+  font-size: .75rem;
+  color: rgba(160,128,192,.55);
+}
+
+/* 시작 버튼 */
+.splash-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  border-radius: 100px;
+  padding: 15px 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font-main);
+  box-shadow: 0 4px 28px rgba(200,80,255,.5);
+  transition: transform .18s, box-shadow .18s;
+  letter-spacing: .02em;
+  animation: pulse 2s ease-in-out infinite;
+}
+.splash-btn:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 8px 40px rgba(200,80,255,.75);
+}
+.splash-btn:active { transform: scale(.97); }
+
+@media (max-width: 480px) {
+  .splash-card { padding: 24px 18px 20px; gap: 16px; }
+  .splash-title { font-size: 2rem; }
+  .splash-icon  { font-size: 42px; }
+}
