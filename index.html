@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>인생네컷 📷 포토부스</title>
+  <meta name="description" content="웹캠 하나로 즐기는 인생네컷! 카운트다운 → 4컷 자동 촬영 → 2x2 합성 → 다운로드까지 한 번에." />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#1a0033" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ─── LANDING SCREEN ─── -->
+  <div id="screen-landing" class="screen active">
+    <div class="landing-bg">
+      <div class="blob blob1"></div>
+      <div class="blob blob2"></div>
+      <div class="blob blob3"></div>
+    </div>
+    <div class="landing-content">
+      <div class="logo-wrap">
+        <span class="logo-icon">📷</span>
+        <h1 class="logo-text">인생네컷</h1>
+        <p class="logo-sub">나만의 웹 포토부스</p>
+      </div>
+      <div class="feature-pills">
+        <span class="pill">⏱ 카운트다운</span>
+        <span class="pill">🪞 거울 모드</span>
+        <span class="pill">🎨 프레임 선택</span>
+        <span class="pill">⬇ 바로 저장</span>
+      </div>
+      <button id="btn-start" class="btn-primary pulse">카메라 켜기 &amp; 시작하기</button>
+      <p class="landing-note">🔒 사진은 기기 밖으로 나가지 않아요 · HTTPS/localhost 환경 필요</p>
+    </div>
+  </div>
+
+  <!-- ─── CAMERA PERMISSION ERROR ─── -->
+  <div id="screen-error" class="screen">
+    <div class="error-card">
+      <span class="error-icon">🚫</span>
+      <h2>카메라 접근 불가</h2>
+      <p id="error-msg">카메라 권한을 허용하거나<br/>HTTPS/localhost 환경에서 열어주세요.</p>
+      <button id="btn-retry" class="btn-secondary">다시 시도</button>
+    </div>
+  </div>
+
+  <!-- ─── SHOOT SCREEN ─── -->
+  <div id="screen-shoot" class="screen">
+    <!-- Top bar -->
+    <header class="shoot-header">
+      <span class="brand">📷 인생네컷</span>
+      <div class="header-controls">
+        <label class="toggle-wrap">
+          <input type="checkbox" id="chk-mirror" checked />
+          <span class="toggle-label">🪞 거울</span>
+        </label>
+        <select id="sel-timer" class="sel-timer">
+          <option value="0">타이머: 없음</option>
+          <option value="3" selected>타이머: 3초</option>
+          <option value="5">타이머: 5초</option>
+        </select>
+        <select id="sel-frame" class="sel-frame">
+          <option value="none">프레임: 없음</option>
+          <option value="pink">🌸 핑크</option>
+          <option value="blue">💙 블루</option>
+          <option value="gold">✨ 골드</option>
+          <option value="dark">🖤 다크</option>
+          <option value="spring">🌷 봄날</option>
+        </select>
+      </div>
+    </header>
+
+    <!-- Main layout -->
+    <main class="shoot-main">
+      <!-- Live preview -->
+      <div class="preview-wrap">
+        <video id="preview" autoplay playsinline></video>
+        <div id="countdown-overlay" class="countdown-overlay hidden">
+          <span id="countdown-num"></span>
+        </div>
+        <div id="flash-overlay" class="flash-overlay hidden"></div>
+        <div id="shot-progress" class="shot-progress">
+          <span id="progress-label">0 / 4</span>
+        </div>
+      </div>
+
+      <!-- Shot slots -->
+      <div class="slots-wrap">
+        <div class="slots-grid">
+          <div class="slot" id="slot-0" data-idx="0">
+            <span class="slot-num">1</span>
+          </div>
+          <div class="slot" id="slot-1" data-idx="1">
+            <span class="slot-num">2</span>
+          </div>
+          <div class="slot" id="slot-2" data-idx="2">
+            <span class="slot-num">3</span>
+          </div>
+          <div class="slot" id="slot-3" data-idx="3">
+            <span class="slot-num">4</span>
+          </div>
+        </div>
+        <button id="btn-shoot" class="btn-shoot">
+          <span class="btn-shoot-inner">
+            <span class="shoot-icon">●</span>
+            <span class="shoot-label">촬영 시작</span>
+          </span>
+        </button>
+        <button id="btn-reset-shots" class="btn-ghost">↺ 처음부터</button>
+      </div>
+    </main>
+  </div>
+
+  <!-- ─── RESULT SCREEN ─── -->
+  <div id="screen-result" class="screen">
+    <div class="result-bg">
+      <div class="blob blob2"></div>
+    </div>
+    <div class="result-inner">
+      <!-- Strip preview -->
+      <div class="strip-wrap">
+        <canvas id="result-canvas"></canvas>
+        <div class="strip-shine"></div>
+      </div>
+
+      <!-- Controls -->
+      <div class="result-controls">
+        <h2 class="result-title">🎉 완성!</h2>
+
+        <div class="result-section">
+          <label class="ctrl-label">프레임</label>
+          <div class="frame-picker">
+            <button class="frame-btn active" data-frame="none">없음</button>
+            <button class="frame-btn" data-frame="pink">🌸 핑크</button>
+            <button class="frame-btn" data-frame="blue">💙 블루</button>
+            <button class="frame-btn" data-frame="gold">✨ 골드</button>
+            <button class="frame-btn" data-frame="dark">🖤 다크</button>
+            <button class="frame-btn" data-frame="spring">🌷 봄날</button>
+          </div>
+        </div>
+
+        <div class="result-section">
+          <label class="ctrl-label" for="txt-caption">문구 추가</label>
+          <input id="txt-caption" class="txt-caption" type="text" maxlength="30" placeholder="예: 우리의 순간 2025 💕" />
+        </div>
+
+        <div class="result-section">
+          <label class="ctrl-label">컷 교체</label>
+          <div class="retake-row">
+            <button class="btn-retake" data-idx="0">1컷</button>
+            <button class="btn-retake" data-idx="1">2컷</button>
+            <button class="btn-retake" data-idx="2">3컷</button>
+            <button class="btn-retake" data-idx="3">4컷</button>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button id="btn-download" class="btn-primary">⬇ 저장하기</button>
+          <button id="btn-redo" class="btn-secondary">↺ 전체 재촬영</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="hidden-canvas" style="display:none;"></canvas>
+  <script src="app.js"></script>
+</body>
+</html>

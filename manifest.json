@@ -1,0 +1,24 @@
+{
+  "name": "인생네컷 포토부스",
+  "short_name": "인생네컷",
+  "description": "웹 기반 4컷 포토부스 앱",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0d001a",
+  "theme_color": "#1a0033",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
