@@ -1,0 +1,25 @@
+# ─── 보안 민감 파일 ───────────────────────────
+AWS.txt
+*.pem
+*.key
+*.env
+.env*
+secrets.*
+*secret*
+*credential*
+*password*
+
+# ─── SSH / 인증서 ─────────────────────────────
+*.ppk
+id_rsa*
+id_ed25519*
+
+# ─── OS 파일 ──────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ─── 에디터 ───────────────────────────────────
+.vscode/
+.idea/
+*.swp
